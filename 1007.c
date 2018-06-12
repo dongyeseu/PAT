@@ -31,6 +31,7 @@ int main(void)
     return 0;
 
 }
+/*
 int Is_prime(int z)     //判断是否为素数
 {
     int j;
@@ -49,6 +50,25 @@ int Is_prime(int z)     //判断是否为素数
         return 1;
     }
 }
+*/
+
+int Is_prime(int z)
+{
+    int item = (int)sqrt(z)+1;
+    int j;
+    if (z<2)
+        return 0;
+    else if (z == 2 || z == 3)
+        return 1;
+    else if (z%6!=1 && z%6!=5)
+        return 0;
+    for (j = 5; j < item; j+=6)
+    {
+        if (z%j==0 || z%(j+2)==0)
+            return 0;
+    }
+    return 1;
+}
 
 int prime_num(int * p,int n)  //求出n以内的所有素数
 {
@@ -58,6 +78,7 @@ int prime_num(int * p,int n)  //求出n以内的所有素数
     {
         if(Is_prime(j))
          {
+             printf("%d",j);
              p[i] = j;
              i+=1;
          }
@@ -76,7 +97,7 @@ int prime_pair(int * p,int s) //返回素数对
         {
             z++;
         }
-
     }
     return z;
 }
+
