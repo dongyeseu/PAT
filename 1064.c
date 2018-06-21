@@ -1,17 +1,17 @@
 /*
-Ê±¼ä£º2018/6/21 19µã36·Ö
-×÷Õß£ºÂ¥ºÆÈ»
-ÌâÄ¿£º
-1064 ÅóÓÑÊý(20)£¨20 ·Ö£©
-Èç¹ûÁ½¸öÕûÊý¸÷Î»Êý×ÖµÄºÍÊÇÒ»ÑùµÄ£¬Ôò±»³ÆÎªÊÇ¡°ÅóÓÑÊý¡±£¬¶øÄÇ¸ö¹«¹²µÄºÍ¾ÍÊÇËüÃÇµÄ¡°ÅóÓÑÖ¤ºÅ¡±¡£ÀýÈç123ºÍ51¾ÍÊÇÅóÓÑÊý£¬ÒòÎª1+2+3 = 5+1 = 6£¬¶ø6¾ÍÊÇËüÃÇµÄÅóÓÑÖ¤ºÅ¡£¸ø¶¨Ò»Ð©ÕûÊý£¬ÒªÇóÄãÍ³¼ÆÒ»ÏÂËüÃÇÖÐÓÐ¶àÉÙ¸ö²»Í¬µÄÅóÓÑÖ¤ºÅ¡£×¢Òâ£ºÎÒÃÇÄ¬ÈÏÒ»¸öÕûÊý×Ô¼ºÊÇ×Ô¼ºµÄÅóÓÑ¡£
-ÊäÈë¸ñÊ½£º
-ÊäÈëµÚÒ»ÐÐ¸ø³öÕýÕûÊýN¡£ËæºóÒ»ÐÐ¸ø³öN¸öÕýÕûÊý£¬Êý×Ö¼äÒÔ¿Õ¸ñ·Ö¸ô¡£ÌâÄ¿±£Ö¤ËùÓÐÊý×ÖÐ¡ÓÚ10^4^¡£
-Êä³ö¸ñÊ½£º
-Ê×ÏÈµÚÒ»ÐÐÊä³ö¸ø¶¨Êý×ÖÖÐ²»Í¬µÄÅóÓÑÖ¤ºÅµÄ¸öÊý£»ËæºóÒ»ÐÐ°´µÝÔöË³ÐòÊä³öÕâÐ©ÅóÓÑÖ¤ºÅ£¬Êý×Ö¼ä¸ôÒ»¸ö¿Õ¸ñ£¬ÇÒÐÐÄ©²»µÃÓÐ¶àÓà¿Õ¸ñ¡£
-ÊäÈëÑùÀý£º
+æ—¶é—´ï¼š2018/6/21 19ç‚¹36åˆ†
+ä½œè€…ï¼šæ¥¼æµ©ç„¶
+é¢˜ç›®ï¼š
+1064 æœ‹å‹æ•°(20)ï¼ˆ20 åˆ†ï¼‰
+å¦‚æžœä¸¤ä¸ªæ•´æ•°å„ä½æ•°å­—çš„å’Œæ˜¯ä¸€æ ·çš„ï¼Œåˆ™è¢«ç§°ä¸ºæ˜¯â€œæœ‹å‹æ•°â€ï¼Œè€Œé‚£ä¸ªå…¬å…±çš„å’Œå°±æ˜¯å®ƒä»¬çš„â€œæœ‹å‹è¯å·â€ã€‚ä¾‹å¦‚123å’Œ51å°±æ˜¯æœ‹å‹æ•°ï¼Œå› ä¸º1+2+3 = 5+1 = 6ï¼Œè€Œ6å°±æ˜¯å®ƒä»¬çš„æœ‹å‹è¯å·ã€‚ç»™å®šä¸€äº›æ•´æ•°ï¼Œè¦æ±‚ä½ ç»Ÿè®¡ä¸€ä¸‹å®ƒä»¬ä¸­æœ‰å¤šå°‘ä¸ªä¸åŒçš„æœ‹å‹è¯å·ã€‚æ³¨æ„ï¼šæˆ‘ä»¬é»˜è®¤ä¸€ä¸ªæ•´æ•°è‡ªå·±æ˜¯è‡ªå·±çš„æœ‹å‹ã€‚
+è¾“å…¥æ ¼å¼ï¼š
+è¾“å…¥ç¬¬ä¸€è¡Œç»™å‡ºæ­£æ•´æ•°Nã€‚éšåŽä¸€è¡Œç»™å‡ºNä¸ªæ­£æ•´æ•°ï¼Œæ•°å­—é—´ä»¥ç©ºæ ¼åˆ†éš”ã€‚é¢˜ç›®ä¿è¯æ‰€æœ‰æ•°å­—å°äºŽ10^4^ã€‚
+è¾“å‡ºæ ¼å¼ï¼š
+é¦–å…ˆç¬¬ä¸€è¡Œè¾“å‡ºç»™å®šæ•°å­—ä¸­ä¸åŒçš„æœ‹å‹è¯å·çš„ä¸ªæ•°ï¼›éšåŽä¸€è¡ŒæŒ‰é€’å¢žé¡ºåºè¾“å‡ºè¿™äº›æœ‹å‹è¯å·ï¼Œæ•°å­—é—´éš”ä¸€ä¸ªç©ºæ ¼ï¼Œä¸”è¡Œæœ«ä¸å¾—æœ‰å¤šä½™ç©ºæ ¼ã€‚
+è¾“å…¥æ ·ä¾‹ï¼š
 8
 123 899 51 998 27 33 36 12
-Êä³öÑùÀý£º
+è¾“å‡ºæ ·ä¾‹ï¼š
 4
 3 6 9 26
 */
@@ -19,29 +19,29 @@
 
 #include <stdio.h>
 
-int friend_s(int m);      //¼ÆËãÒ»¸öÊý×Ö¸÷¸öÎ»ÖÃÉÏµÄÊý×ÖÖ®ºÍ£»
-void bubble_sort(int * a, int n); //¶ÔÊäÈëµÄÊý×é½øÐÐÅÅÐò
+int friend_s(int m);      //è®¡ç®—ä¸€ä¸ªæ•°å­—å„ä¸ªä½ç½®ä¸Šçš„æ•°å­—ä¹‹å’Œï¼›
+void bubble_sort(int * a, int n); //å¯¹è¾“å…¥çš„æ•°ç»„è¿›è¡ŒæŽ’åº
 
 int main(void)
 {
-    int N;// ÊäÈëµÄÕûÊý¸öÊý
+    int N;// è¾“å…¥çš„æ•´æ•°ä¸ªæ•°
     scanf("%d",&N);
-    int num[N];  //ÊäÈëµÄÑù±¾
-    int res[N];  //´æ·Å¼ÆËãËùµÃµÄÅóÓÑºÅ
-    int i; //Ñ­»·¼ÆÊý
+    int num[N];  //è¾“å…¥çš„æ ·æœ¬
+    int res[N];  //å­˜æ”¾è®¡ç®—æ‰€å¾—çš„æœ‹å‹å·
+    int i; //å¾ªçŽ¯è®¡æ•°
     for(i=0 ; i<N ; i++)
     {
         scanf("%d",&num[i]);
         res[i] = friend_s(num[i]);
     }
-    bubble_sort(res,N);  //¶Ô¼ÆËãËùµÃµÄÅóÓÑÊý½øÐÐÅÅÐò
-    int Sum=1; //²»Í¬ÅóÓÑÊýµÄ¸öÊý
+    bubble_sort(res,N);  //å¯¹è®¡ç®—æ‰€å¾—çš„æœ‹å‹æ•°è¿›è¡ŒæŽ’åº
+    int Sum=1; //ä¸åŒæœ‹å‹æ•°çš„ä¸ªæ•°
     for(i=0 ; i<N-1 ; i++)
     {
         if(res[i]!=res[i+1])
             Sum+=1;
     }
-    int j=0; //ÓÃÓÚÑ­»·¼ÆÊý
+    int j=0; //ç”¨äºŽå¾ªçŽ¯è®¡æ•°
     printf("%d\n",Sum);
     for(i=0 ; i<N-1 ; i++)
     {
@@ -56,7 +56,7 @@ int main(void)
     return 0;
 }
 
-int friend_s(int m)      //¼ÆËãÒ»¸öÊý×Ö¸÷¸öÎ»ÖÃÉÏµÄÊý×ÖÖ®ºÍ
+int friend_s(int m)      //è®¡ç®—ä¸€ä¸ªæ•°å­—å„ä¸ªä½ç½®ä¸Šçš„æ•°å­—ä¹‹å’Œ
 {
     int res = 0;
     while(m)
@@ -69,9 +69,9 @@ int friend_s(int m)      //¼ÆËãÒ»¸öÊý×Ö¸÷¸öÎ»ÖÃÉÏµÄÊý×ÖÖ®ºÍ
 
 void bubble_sort(int * a, int n)
 {
-    int i,j; //ÓÃÓÚÑ­»·¼ÆÊý
-    int change; //yÓÃÓÚÅÐ¶ÏµÚ¶þ¸öÑ­»·ÖÐÊÇ·ñ´æÔÚÔªËØ»¥»»¹ý³Ì
-    int k; //ÓÃÓÚÔªËØ»¥»»
+    int i,j; //ç”¨äºŽå¾ªçŽ¯è®¡æ•°
+    int change; //yç”¨äºŽåˆ¤æ–­ç¬¬äºŒä¸ªå¾ªçŽ¯ä¸­æ˜¯å¦å­˜åœ¨å…ƒç´ äº’æ¢è¿‡ç¨‹
+    int k; //ç”¨äºŽå…ƒç´ äº’æ¢
     for(i = n-1 , change = 1 ; i>=1 && change ; i--)
     {
         change = 0;
@@ -87,3 +87,27 @@ void bubble_sort(int * a, int n)
         }
     }
 }
+
+
+/*  æ€è·¯ï¼šç”±äºŽæ‰€æœ‰æ•°å­—éƒ½å°äºŽ10^5ï¼Œæ‰€ä»¥æ•°å­—ä¸Šå„ä¸ªä½ç½®ä¹‹å’Œæœ€å¤§ä¸º36ï¼Œå¼€ä¸€ä¸ª37çš„æ•°ç»„å³å¯
+#include <stdio.h>
+int main()
+{
+    int N, m, sum, friendID[37] = {0}, count = 0;
+    
+    scanf("%d", &N);
+    for(int i = 0; i < N; i++)
+    {
+        scanf("%d", &m);
+        for(sum = 0; m; m /= 10) sum += m % 10;
+        if(!friendID[sum]) {friendID[sum] = 1; count++;}
+    }
+    
+    printf("%d\n", count);
+    for(int i = 1; i < 37; i++) if(friendID[i])
+        printf("%d%c", i, --count ? ' ' : '\0');
+    
+    return 0;
+}
+
+*/
