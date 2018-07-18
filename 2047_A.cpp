@@ -60,6 +60,91 @@ LOR6
 ZOE1
 */
 
+//依然超时
+#include <iostream>
+#include <vector>
+#include <string>
+#include <set>
+#include <stdio.h>
+using namespace std;
+int main()
+{
+    int N,K;
+    scanf("%d %d",&N,&K);
+    vector<set<string>>student(K+1);
+    int i = 0;
+    for(i=0 ; i<N ; i++)
+    {
+        char Name[5];
+        string name;
+        int M;
+        scanf("%s %d",Name,&M);
+        name = Name;
+        int j;
+        for(j=0 ; j<M ; j++)
+        {
+            int temp;
+            scanf("%d",&temp);
+            student[temp].insert(name);
+        }
+    }
+    for(i=1 ; i<=K ; i++)
+    {
+        int j , len = student[i].size();
+        printf("%d %d\n",i,len);
+        auto k = student[i].begin(),l = student[i].end();
+        for( ; k!=l ; k++)
+            cout<<*k<<"\n";
+    }
+    return 0;
+}
+
+
+/*测试点2答案错误，测试点4运行超时
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+bool cmp(string a,string b)
+{
+    return a<b;
+}
+int main()
+{
+    int N,K;
+    cin>>N>>K;
+    map<int,vector<string>>course;
+    int i;
+    for(i=0 ; i<N ; i++)
+    {
+        string name;
+        cin>>name;
+        int n,temp;
+        cin>>n;
+        while(n--)
+        {
+            cin>>temp;
+            course[temp].push_back(name);
+        }
+    }
+    auto j = course.begin(),k = course.end();
+    for( j ; j!=k ; j++)
+    {
+        cout<<j->first<<" "<<j->second.size()<<"\n";
+        sort(j->second.begin(),j->second.end(),cmp);
+        int len = j->second.size();
+        int z;
+        for(z=0 ; z<len ; z++)
+        {
+            cout<<j->second[z]<<"\n";
+        }
+    }
+    return 0;
+}
+*/
+
 //最后一个测试点运行超时
 #include <iostream>
 #include <vector>
