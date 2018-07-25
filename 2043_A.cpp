@@ -145,6 +145,172 @@ int main()
     return 0;
 }
 
+//思路二，直接写出二叉搜索树
+#include <iostream>
+#include <queue>
+#include <cstdlib>
+#include <vector>
+using namespace std;
+queue<int>Res;
+queue<int>res;
+int cnt=0;
+struct TreeNode
+{
+    int data;
+    struct TreeNode * Left;
+    struct TreeNode * Right;
+};
+typedef struct TreeNode * SearchTree;
+typedef struct TreeNode * Position;
+
+SearchTree CreateSearchTree(SearchTree T)
+{
+    return NULL;
+}
+
+SearchTree Insert_1(int X,SearchTree T)
+{
+    if(T == NULL)
+    {
+        T = (struct TreeNode *)malloc(sizeof(struct TreeNode));
+        T->data = X;
+        T->Left = NULL;
+        T->Right = NULL;
+    }
+    else if(X < T->data)
+    {
+        T->Left = Insert_1(X,T->Left);
+    }
+    else if(X >= T->data)
+    {
+        T->Right = Insert_1(X , T->Right);
+    }
+    return T;
+}
+
+SearchTree Insert_2(int X,SearchTree T)
+{
+    if(T == NULL)
+    {
+        T = (struct TreeNode *)malloc(sizeof(struct TreeNode));
+        T->data = X;
+        T->Left = NULL;
+        T->Right = NULL;
+    }
+    else if(X >= T->data)
+    {
+        T->Left = Insert_2(X,T->Left);
+    }
+    else if(X < T->data)
+    {
+        T->Right = Insert_2(X , T->Right);
+    }
+    return T;
+}
+
+void Post(SearchTree T)
+{
+    /*
+    if(T!=NULL)
+    {
+        Post(T->Left);
+        Post(T->Right);
+        res.push(T->data);
+    }
+    */
+    if(T == NULL)
+        return;
+    Post(T->Left);
+    Post(T->Right);
+    res.push(T->data);
+
+
+}
+
+void PreOrderTraversel(SearchTree T)
+{
+    if(T == NULL)
+        return;
+    Res.push(T->data);
+    PreOrderTraversel(T->Left);
+    PreOrderTraversel(T->Right);
+}
+
+
+
+int main()
+{
+    int N;
+    cin>>N;
+    int i,temp;
+    SearchTree T;
+    T = CreateSearchTree(T);
+    vector<int>Origin;
+    for(i=0 ; i<N ; i++)
+    {
+        cin>>temp;
+        Origin.push_back(temp);
+    }
+    if(Origin[1]<Origin[0])
+    {
+        for(i=0 ; i<N ; i++)
+            T = Insert_1(Origin[i],T);
+    }
+    else
+    {
+        for(i=0 ; i<N ; i++)
+            T = Insert_2(Origin[i],T);
+    }
+    PreOrderTraversel(T);
+   // cout<<Res.size();
+    int flag=0;
+    i=0;
+    while(!Res.empty())
+    {
+        temp = Res.front();
+        if(temp == Origin[i++])
+        {
+            flag = 1;
+            Res.pop();
+        }
+        else
+        {
+            flag = 0;
+            while(!Res.empty())
+                Res.pop();
+        }
+    }
+    if(flag == 1)
+    {
+        cout<<"YES\n";
+        Post(T);
+        i = 0;
+        while(!res.empty())
+        {
+            if(i==0)
+            {
+                temp = res.front();
+                cout<<temp;
+                i++;
+                res.pop();
+            }
+            else
+            {
+                temp = res.front();
+                cout<<" "<<temp;
+                i++;
+                res.pop();
+            }
+        }
+        cout<<"\n";
+    }
+    else
+    {
+        cout<<"NO\n";
+    }
+    return 0;
+
+}
 
 //他山之玉
 //柳婼
