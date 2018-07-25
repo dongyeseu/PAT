@@ -22,6 +22,78 @@ Sample Input:
 Sample Output:
 2 + 4 = 6
 */
+//测试点全部通过
+#include <iostream>
+#include <cstdlib>
+#include <cstdio>
+using namespace std;
+
+struct TreeNode{
+    int data;
+    struct TreeNode * Left;
+    struct TreeNode * Right;
+};
+
+typedef struct TreeNode * Position;
+typedef struct TreeNode * SearchTree;
+
+SearchTree CreateSearchTree(SearchTree T)
+{
+    return NULL;
+}
+
+SearchTree Insert(int X , SearchTree T)
+{
+    if(T == NULL)
+    {
+        T = (struct TreeNode *)malloc(sizeof(struct TreeNode));
+        T->data = X;
+        T->Left = NULL;
+        T->Right = NULL;
+    }
+    else if (X <= T->data)
+    {
+        T->Left = Insert(X,T->Left);
+    }
+    else if (X > T->data)
+    {
+        T->Right = Insert(X,T->Right);
+    }
+    return T;
+}
+
+int maxdepth = -1;
+int Res[1000] = {0};
+void DFS(SearchTree T,int depth)
+{
+    if(T == NULL)
+    {
+        maxdepth = max(maxdepth,depth);
+        return;
+    }
+    Res[depth]++;
+    DFS(T->Left,depth+1);
+    DFS(T->Right,depth+1);
+}
+
+int main()
+{
+    int N;
+    cin>>N;
+    int i,temp;
+    SearchTree T;
+    T = CreateSearchTree(T);
+    for(i=0 ; i<N ; i++)
+    {
+        cin>>temp;
+        T = Insert(temp,T);
+    }
+    DFS(T,0);
+    printf("%d + %d = %d\n",Res[maxdepth-1],Res[maxdepth-2],Res[maxdepth-1]+Res[maxdepth-2]);
+    return 0;
+}
+
+
 
 //最后一个测试点答案错误
 #include <iostream>
