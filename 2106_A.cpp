@@ -63,6 +63,7 @@ int main()
 
         }
     }
+    
     for(i=0 ; i<N ; i++)
     {
         if(Book[i]==0)
