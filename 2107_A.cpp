@@ -98,6 +98,94 @@ int main()
 }
 
 
+//思路二
+//并查集
+
+#include <iostream>
+#include <vector>
+#include <cstdio>
+#include <set>
+#include <algorithm>
+using namespace std;
+
+int Father[2010] = {0};
+int Root[2010] = {0};
+
+void Init()
+{
+    int i;
+    for(i=0 ; i<2010 ; i++)
+        Father[i] = -1;
+}
+
+int FindFather(int x)
+{
+    while(Father[x]!=-1)
+        x = Father[x];
+    return x;
+}
+
+bool cmp(int a,int b)
+{
+    return a>b;
+}
+void Union(int x,int y)
+{
+    int a = FindFather(x);
+    int b = FindFather(y);
+    if(a>=b)
+        Father[a] = b;
+    else
+        Father[b] = a;
+}
+
+int main()
+{
+    int N,K,i,j,temp;
+    Init();
+    cin>>N;
+    set<int>Social;
+    for(i=0 ; i<N ; i++)
+    {
+        cin>>K;
+        getchar();
+        vector<int>Hobby;
+        for(j=0 ; j<K ; j++)
+        {
+            cin>>temp;
+            Hobby.push_back(temp+N);
+        }
+        for(j=0 ; j<K ; j++)
+        {
+            Union(i,Hobby[j]);
+        }
+    }
+
+    for(i=0 ; i<N ; i++)
+    {
+        Root[FindFather(i)]++;
+    }
+    int cnt = 0;
+    vector<int>Res;
+    for(i=2009 ; i>=0 ; i--)
+    {
+        if(Root[i]!=0)
+        {
+            Res.push_back(Root[i]);
+            cnt++;
+        }
+    }
+    sort(Res.begin(),Res.end(),cmp);
+    cout<<cnt<<"\n";
+    for(i=0 ; i<Res.size() ; i++)
+    {
+        printf("%d%c",Res[i],i!=Res.size()-1?' ':'\n');
+    }
+    return 0;
+}
+
+
+
 //他山之玉
 //柳婼
 /*
