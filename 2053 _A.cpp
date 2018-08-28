@@ -20,6 +20,122 @@ Sample Output:
 10 3 3 6 2
 */
 
+//完全通过
+#include <iostream>
+#include <vector>
+#include <cstdio>
+#include <algorithm>
+#include <stack>
+using namespace std;
+
+vector<int>Path;//存储每个结点的父节点，根节点的父节点为-1
+vector<int>node; //若为0，则为叶子结点
+void DFS(int root,vector<vector<int>>Graph) //深度优先搜索过程
+{
+    stack<int>tree;
+    tree.push(root);
+    while(!tree.empty())
+    {
+        int nd = tree.top();
+        tree.pop();
+        if(node[nd])
+        {
+            for(auto c : Graph[nd])
+            {
+                Path[c] = nd;
+                tree.push(c);
+            }
+        }
+    }
+}
+
+bool cmp(vector<int>a,vector<int>b)    //路径权值排序
+{
+    int len = a.size()<b.size()?a.size():b.size();
+    int i;
+    for(i=0 ; i<len ; i++)
+    {
+        if(a[i]!=b[i])
+            return a[i] > b[i];
+    }
+}
+
+int main()
+{
+    vector<vector<int>>Graph; //图的存储
+    int N,M,S,i,j,temp,root = 0;
+    scanf("%d %d %d",&N,&M,&S);
+    Graph.resize(N); //改变图、路径、结点的容量
+    Path.resize(N+1);
+    node.resize(N+1);
+    fill(node.begin(),node.end(),0);
+    vector<int>weight(N);
+    vector<vector<int>>Res;
+    for(i=0 ; i<N ; i++)
+        scanf("%d",&weight[i]);    //输入每个结点的权值
+    for(i=0 ; i<M ; i++)
+    {
+        int non_leaf_id,num;
+        cin>>non_leaf_id>>num;
+        node[non_leaf_id] = 1;
+        for(j=0 ; j<num ; j++)
+        {
+            cin>>temp;
+            Graph[non_leaf_id].push_back(temp);       //构建图
+        }
+    }
+    Path[root] = -1;
+    DFS(root,Graph);
+    for(i=0 ; i<N ; i++)
+    {
+        if(node[i] == 0)
+        {
+            vector<int>weightpath;
+            vector<int>idpath;
+            vector<int>Book(N+1,0);
+            j = i;
+            int flag = 0;
+            while(j!=-1)
+            {
+                idpath.push_back(j);
+                if(Book[j])
+                {
+                    flag = 1;
+                    break;
+                }
+                Book[j] = 1;
+                weightpath.push_back(weight[j]);
+                j = Path[j];
+            }
+            if(flag)
+                continue;
+            int weightsum = 0;
+            for(auto z:idpath)
+                weightsum += weight[z];
+            if(weightsum == S)
+            {
+                reverse(weightpath.begin(),weightpath.end());
+                Res.push_back(weightpath);
+            }
+        }
+    }
+    sort(Res.begin(),Res.end(),cmp);
+    for(i=0 ; i<Res.size() ; i++)
+    {
+        for(j=0 ; j<Res[i].size() ; j++)
+        {
+            if(j==0)
+                cout<<Res[i][j];
+            else
+                cout<<" "<<Res[i][j];
+        }
+        cout<<"\n";
+    }
+    return 0;
+}
+
+
+
 //最后一个测试点段错误
 #include <iostream>
 #include <vector>
