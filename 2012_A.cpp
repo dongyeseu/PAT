@@ -46,7 +46,88 @@ Sample Output
 3 A
 N/A
 */
+//注：仿写
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <map>
+#include <cstdio>
+using namespace std;
 
+struct student
+{
+    string id;
+    int best;
+    int score[4];
+    int rk[4];
+};
+
+int flag = 0;
+
+bool cmp(struct student a,struct student b)
+{
+    return a.score[flag] > b.score[flag];
+}
+
+int main()
+{
+    map<string,int>Name;
+    vector<struct student>Students;
+    int N,M;
+    cin>>N>>M;
+    int i,j;
+    for(i=0 ; i<N ; i++)
+    {
+        struct student temp;
+        cin>>temp.id>>temp.score[1]>>temp.score[2]>>temp.score[3];
+        temp.score[0] = (temp.score[1]+temp.score[2]+temp.score[3])/3+0.5;
+        Students.push_back(temp);
+
+    }
+    for(i=0 ; i<4 ; i++)
+    {
+        flag = i;
+        sort(Students.begin(),Students.end(),cmp);
+        Students[0].rk[i] = 1;
+        for(j=1 ; j<N ; j++)
+        {
+            if(Students[j].score[i]!=Students[j-1].score[i])
+                Students[j].rk[i] = j+1;
+            else
+                Students[j].rk[i] = Students[j-1].rk[i];
+        }
+    }
+    for(i=0 ; i<N ; i++)
+    {
+        Name[Students[i].id] = i;
+        int m = 0;
+        int b = Students[i].rk[0];
+        for(j=1 ; j<4 ; j++)
+        {
+            if(Students[i].rk[j] < b)
+            {
+                b = Students[i].rk[j] ;
+                m = j;
+            }
+        }
+        Students[i].best = m;
+    }
+    string symbol = "ACME";
+    for(i=0 ; i<M ; i++)
+    {
+        string n;
+        cin>>n;
+        if(Name.count(n)==0)
+            cout<<"N/A\n";
+        else
+            cout<<Students[Name[n]].rk[Students[Name[n]].best]<<" "<<symbol[Students[Name[n]].best]<<"\n";
+    }
+    return 0;
+}
+
+
+//备注：有两个测试点错误
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -267,3 +348,5 @@ int main() {
         }
     }
     return 0;
+    }
+
