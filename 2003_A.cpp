@@ -3,8 +3,8 @@
 #define MAXN 510
 #define INF 99999999
 using namespace std;
-int Graph[MAXN][MAXN];
-int Dist[MAXN],Visited[MAXN],value[MAXN];
+int Graph[MAXN][MAXN]; //有权图，值的大小表示权值的大小
+int Dist[MAXN],Visited[MAXN],value[MAXN];    //Dist表示从起点到该位置的最短距离 ； Visited表示是否已经经过该点 ； 
 int u[MAXN],v[MAXN];
 
 void Dijkstra(int st,int N)
@@ -63,15 +63,15 @@ int main()
     cin>>N>>M>>C1>>C2;
     memset(Dist,0,sizeof(Dist));
     int i,j;
-    for(i=0 ; i<N ; i++)
+    for(i=0 ; i<N ; i++) //图的初始化
     {
-        cin>>value[i];
+        cin>>value[i];  //每个城市中的救护车数量
         for(j=0 ; j<N ; j++)
             Graph[i][j] = INF;
         Graph[i][i] = 0;
     }
     int k,temp;
-    for(i=0 ; i<M ; i++)
+    for(i=0 ; i<M ; i++) //图的记录
     {
         cin>>j>>k>>temp;
         Graph[j][k] = Graph[k][j] = temp;
@@ -139,4 +139,89 @@ int main() {
     }
     printf("%d %d", num[c2], w[c2]);
     return 0;
+}
+
+//他山之玉：思路——Dijsktra & DFS
+#include <iostream>
+#include <string.h>
+using namespace std;
+ 
+const int N=505;
+const int INF=2147483647;
+int num_nodes,num_edges,C1,C2;
+int Graphy[N][N];
+bool visit[N];
+int dist[N];
+int rescue_teams[N];
+int max_rescueteam,ans;
+void dfs(int num_nodes,int src,int dst,int curDist,int cur_rescueteam){
+	visit[src]=true;
+	if(src==dst)
+		if(curDist==dist[dst]){
+			ans++;
+			if(cur_rescueteam>max_rescueteam)
+				max_rescueteam=cur_rescueteam;
+			return;
+		}
+	if(curDist>dist[dst])
+		return;
+	for(int i=0;i<num_nodes;i++)
+		if(visit[i]==false && Graphy[src][i]>0){
+			dfs(num_nodes,i,dst,curDist+Graphy[src][i],cur_rescueteam+rescue_teams[i]);
+			visit[i]=0;
+		}
+}
+ 
+void Dijkstra(int Graphy[N][N],int s){
+	memset(visit,0,sizeof(visit));
+	for(int i=0;i<num_nodes;i++){
+		if(Graphy[s][i]>0 && i!=s)
+			dist[i]=Graphy[s][i];
+		else
+			dist[i]=INF;
+	}
+	dist[s]=0;visit[s]=true;
+	
+	for(int i=1;i<num_nodes;i++){
+		int u;
+		int MIN=INF;
+		for(int j=0;j<num_nodes;j++){
+			if(visit[j]==false && dist[j]<MIN){
+				MIN=dist[j];
+				u=j;
+			}
+		}
+		visit[u]=true;
+		for(int k=0;k<num_nodes;k++)
+			if(visit[k]==false && Graphy[u][k]>0 && MIN+Graphy[u][k]<dist[k]){
+				dist[k]=MIN+Graphy[u][k];
+		}
+	}
+}
+ 
+int main(int agrc,char **argv){
+	cin>>num_nodes>>num_edges>>C1>>C2;
+ 
+	for(int i=0;i<num_nodes;i++){ //init
+		int k;
+		cin>>k;
+		rescue_teams[i]=k;
+	}
+	for(int i=0;i<N;i++)  //init
+		for(int j=0;j<N;j++){
+			Graphy[i][j]=-1;
+			Graphy[j][i]=-1;
+		}
+	//build adj martix
+	for(int i=0;i<num_edges;i++){
+		int u,v,w;
+		cin>>u>>v>>w;
+		Graphy[u][v]=w;
+		Graphy[v][u]=w;
+	}
+	Dijkstra(Graphy,C1);
+	memset(visit,0,sizeof(visit));
+	dfs(num_nodes,C1,C2,0,rescue_teams[C1]);
+	cout<<ans<<" "<<max_rescueteam<<endl;
+	return 0;
 }
