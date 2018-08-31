@@ -6,11 +6,11 @@ int main()
 {
     int N,index;
     float coef;
-    float origin[1002]={0};
+    float origin[1002]={0};  //只有为0时才能将所有元素复制为0，如果为{1},则只有origin[0]=1,其他的元素依然为0
     float res[2004]={0};
     cin>>N;
     int i;
-    for(i=0 ; i<N ; i++)
+    for(i=0 ; i<N ; i++) //这里应该可以用一个set记录所有出现过的index，方便下面的遍历过程
     {
         cin>>index>>coef;
         origin[index] += coef;
@@ -56,7 +56,7 @@ int main() {
     scanf("%d", &n1);
     double b, arr[1001] = {0.0}, ans[2001] = {0.0};
     for(int i = 0; i < n1; i++) {
-        scanf("%d %lf", &a, &b);
+        scanf("%d %lf", &a, &b); //%lf对应double,也可以使用%f
         arr[a] = b;
     }
     scanf("%d", &n2);
