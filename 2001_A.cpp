@@ -28,11 +28,11 @@ using namespace std;
 
 int main()
 {
-    int num_1,num_2;
+    int num_1,num_2;  //变量
     cin>>num_1>>num_2;
-    int res = num_1 + num_2;
-    if(res<0)res = -res , cout<<"-";
-    string R = to_string(res);
+    int res = num_1 + num_2;    //求和
+    if(res<0)res = -res , cout<<"-";  //判读正负
+    string R = to_string(res);  //转换为字符串
     if(R.size()<=3)
         cout<<R;
     else{
@@ -42,12 +42,43 @@ int main()
         for(i=0 ; i<lgt ; i++)
         {
             cout<<R[i];
-            if((i==mid-1 || (i-mid+1)%3 == 0) &&(i!=lgt-1))
+            if((i==mid-1 || (i-mid+1)%3 == 0) &&(i!=lgt-1))    //输出格式
                 cout<<",";
         }
     }
     return 0;
 }
+
+//他山之玉
+#include<iostream>
+#include<cstdio>
+#include<cmath>
+#include<cstring>
+using namespace std;
+int main(){
+    int a,b;
+    cin>>a>>b;
+    int c=a+b;
+    if(c<0) cout<<'-';
+    c=abs(c);
+    char s[20];
+    sprintf(s,"%d",c);   //从int中获取字符串
+    int len=strlen(s);
+    //if(len<=3) {cout<<s;return 0;}
+    int m=len/3,n=len%3,start=0;
+    //cout<<"m="<<m<<' '<<"n="<<n<<endl;
+    if(n==0) {cout<<s[0]<<s[1]<<s[2];start=3;m--;}
+    else if(n==1) {cout<<s[0];start=1;}
+    else if(n==2) {cout<<s[0]<<s[1];start=2;}
+    while(m!=0){
+        cout<<',';
+        cout<<s[start]<<s[start+1]<<s[start+2];
+        start+=3;
+        m--;
+    }
+    return 0;
+}
+
 
 
 //他山之玉
