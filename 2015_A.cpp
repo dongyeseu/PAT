@@ -29,7 +29,7 @@ No
 #include <vector>
 using namespace std;
 
-bool IsPrime(int m)
+bool IsPrime(int m)    //标准的判断是否为素数的方法，很快捷
 {
     int item = (int)sqrt(m)+1;
     int k;
