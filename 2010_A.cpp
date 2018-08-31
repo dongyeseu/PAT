@@ -25,6 +25,8 @@ Sample Output 2:
 
 Impossible
 */
+
+//两个测试点错误（23')
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -83,6 +85,103 @@ int main()
         cout<<"Impossible\n";
     return 0;
 }
+
+//他山之玉
+#include<iostream>
+#include<string>
+#include<sstream>
+using namespace std;
+ 
+//字符转数字 
+int trans(char c){
+	if(c>='0'&&c<='9'){
+		return int(c)-int('0');
+	}else{
+		return int(c)-int('a')+10;
+	}
+}
+ 
+//字符串s进制下限 
+int minradix(string s){
+	int i,max = 1,a;
+	for(i=0;i<s.length();i++){
+		a = trans(s[i]);
+		if(a > max){
+			max = a;
+		}
+	}
+	return max+1;
+}
+ 
+//将字符串s按radix进制转化后的值 
+long long hextrans(string s,int radix){
+	long long sl = 0;
+	for(int j=0;j<s.length();j++){
+		sl = sl*radix + trans(s[j]);
+		if(sl < 0) break; 
+	}
+	return sl;
+}
+ 
+int main(){
+	string a,b;
+	stringstream ss;
+	int tag,radix,i,j;
+	long long al=0,bl=0,hex,l,mid,r;
+	cin>>a>>b>>tag>>radix;
+	if(tag == 1){
+		if(radix != 10){
+			for(i=0;i<a.length();i++){
+				al = al*radix + trans(a[i]);
+			}
+		}else{
+			ss << a;
+			ss >> al; 
+		}
+		l = minradix(b);
+		r = (al>l?al:l) + 1;
+		while(l<=r){
+			mid = (l+r)/2;
+			hex = hextrans(b,mid);
+			if(hex == al){
+				cout<<mid;
+				break;
+			}else if(hex < 0||hex > al){
+				r = mid - 1;
+			}else if(hex < al){
+				l = mid + 1;
+			}
+		}
+		if(l>r) cout<<"Impossible";
+	}else{
+		if(radix != 10){
+			for(i=0;i<b.length();i++){
+				bl = bl*radix + trans(b[i]);
+			}
+		}else{
+			ss << b;
+			ss >> bl; 
+		}
+		l = minradix(a);
+		r = (bl>l?bl:l) + 1;
+		while(l<=r){
+			mid = (l+r)/2;
+			hex = hextrans(a,mid);
+			if(hex == bl){
+				cout<<mid;
+				break;
+			}else if(hex < 0||hex > bl){
+				r = mid - 1;
+			}else if(hex < bl){
+				l = mid + 1;
+			}
+		}
+		if(l>r) cout<<"Impossible";				
+	}
+	
+	return 0;
+}
+
 
 //他山之玉
 //柳婼
