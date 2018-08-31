@@ -25,6 +25,8 @@ Sample Output
 0
 */
 
+
+// 思路 ： DFS & 连通分量
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -141,6 +143,73 @@ int main() {
             }
         }
         printf("%d\n", cnt - 1);
+    }
+    return 0;
+}
+
+//他山之玉
+//思路：并查集
+#include<iostream>
+#include<cstdio>
+#include<string>
+#include<algorithm>
+#include<queue>
+#include<vector>
+#include<unordered_map>
+#include<cstring>
+
+using namespace std;
+
+const int maxn = 1005;
+int mapx[maxn * maxn][2];
+int pre[maxn];
+
+int Find(int x)
+{
+    return pre[x] == x ? x : pre[x] = Find(pre[x]);
+}
+
+void Union(int x, int y)
+{
+    x = Find(x);
+    y = Find(y);
+    if (x == y) return;
+    pre[y] = x;
+}
+
+int main()
+{
+    int n, m, k, sum;
+    cin >> n >> m >> k;
+    memset(mapx, 0, sizeof(mapx));
+    for (int i = 0; i < m; i++)
+    {
+        cin >> mapx[i][0] >> mapx[i][1];
+    }
+
+    int city;
+    while (k--)
+    {
+        cin >> city;
+        for (int i = 0; i <= n; i++)
+        {
+            pre[i] = i;
+        }
+
+        for (int i = 0; i < m; i++)
+        {
+            if (mapx[i][0] != city && mapx[i][1] != city)
+                Union(mapx[i][0], mapx[i][1]);
+        }
+
+        sum = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            if (pre[i] == i && i != city)
+                sum++;
+        }
+
+        cout << sum - 1 << endl;
     }
     return 0;
 }
