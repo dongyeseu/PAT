@@ -19,6 +19,7 @@ Sample Output
 3 2 1.5 1 2.9 0 3.2
 */
 
+//数组下标表示指数大小，值表示系数大小
 #include <iostream>
 #include <stdio.h>
 using namespace std;
