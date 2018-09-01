@@ -13,6 +13,80 @@ Sample Input:
 Sample Output:
 7
 */
+//尝试了一下回溯法，运行超时
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int>Favorate;
+vector<int>color;
+vector<int>path,temppath;
+void DFS(int i,int N)
+{
+    if(i > N)
+    {
+        if(temppath.size() > path.size())
+            path = temppath;
+        return ;
+    }
+    if(temppath.size()+(N-i+1)<=temppath.size())
+        return ;
+    int j;
+    for(j=0 ; j<=1 ; j++)
+    {
+        if(j==0)
+        {
+            int flag = 0;
+            if(temppath.size()==0)
+                flag =1;
+            else
+            {
+                int len = temppath.size()-1;
+                int k = temppath[len];
+                if(Favorate[color[i]] >= Favorate[k])
+                {
+                    flag = 1;
+                }
+            }
+            if(flag == 1)
+            {
+                temppath.push_back(color[i]);
+                DFS(i+1,N);
+                temppath.pop_back();
+            }
+        }
+        else
+            DFS(i+1,N);
+    }
+
+}
+
+int main()
+{
+    int N,M,K;
+    cin>>N;
+    Favorate.resize(N+1,0);
+    int i,temp;
+    cin>>M;
+    for(i=1 ; i<=M ; i++)
+    {
+        cin>>temp;
+        Favorate[temp] = i;
+    }
+    cin>>K;
+    for(i=1 ; i<=K ; i++)
+    {
+        cin>>temp;
+        if(Favorate[temp] != 0)
+            color.push_back(temp);
+    }
+    K = color.size();
+    DFS(0,K);
+    cout<<path.size();
+    return 0;
+}
+
+
 
 #include <iostream>
 #include <vector>
