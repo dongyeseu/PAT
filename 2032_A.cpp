@@ -46,6 +46,51 @@ Sample Output 2:
 
 -1
 */
+//复习时写的，OK
+#include <iostream>
+#include <cstdio>
+#include <vector>
+using namespace std;
+
+struct node
+{
+    int address;
+    char value;
+    int next;
+    bool flag = false;
+};
+
+int main()
+{
+    int first,second,N;
+    cin>>first>>second>>N;
+    int res;
+    vector<struct node>line(1000000);
+    int i;
+    int ad,nt;
+    char ch;
+    for(i=0 ; i<N ; i++)
+    {
+        cin>>ad>>ch>>nt;
+        line[ad].address = ad;
+        line[ad].value = ch;
+        line[ad].next = nt;
+    }
+    for(i=first ; i!=-1 ; i = line[i].next)
+        line[i].flag = true;
+    for(i=second ; i!=-1 ; i=line[i].next)
+    {
+        if(line[i].flag)
+        {
+            printf("%05d",i);
+            return 0;
+        }
+    }
+    cout<<-1;
+    return 0;
+
+}
+
 
 
 /*最后一个测试点运行超时
@@ -156,3 +201,124 @@ int main() {
     printf("-1");
     return 0;
 }
+
+
+//他山之玉
+//日沉云起
+/*
+算法设计：
+首先假设存储两个链表结点地址的数组分别为list1和list2，我们知道如果这两个链表有重复的结点，则重复的结点必然为于这两个链表的末尾部分，
+所以根据这个性质，我们可以从两个链表的末端开始同时从后向前遍历，如果两个链表中有空链表或者末端结点地址不同，显然，两个链表没有相同结
+点，直接输出-1，否则不断向前遍历直到到达一个不同的结点地址，那么所要求的相同结点的起始地址就在该不同节点地址的下一个地址。
+*/
+#include<bits/stdc++.h>
+using namespace std;
+char data[1000000];//结点地址有5位数字，故这个哈希表数组至少要开到10的6次方
+int Next[1000000];//结点地址有5位数字，故这个哈希表数组至少要开到10的6次方
+int main(){
+    int begin1,begin2,N;//链表1起始地址、链表2起始地址，给出的结点总数
+    vector<int> list1,list2;//存储2个链表所有结点地址的vector
+    scanf("%d%d%d",&begin1,&begin2,&N);
+    while(N--){
+        int a;
+        scanf("%d",&a);
+        scanf(" %c %d",&data[a],&Next[a]);
+    }
+    while(begin1!=-1){//存储链表1的所有结点地址
+        list1.push_back(begin1);
+        begin1=Next[begin1];
+    }
+    while(begin2!=-1){//存储链表2的所有结点地址
+        list2.push_back(begin2);
+        begin2=Next[begin2];
+    }
+    int i=list1.size()-1,j=list2.size()-1;//定义两个索引指向两个链表末端节点
+    if(i<0||j<0||list1[i]!=list2[j])//如果两个链表中有空链表或者末端结点地址不同
+        printf("-1");//直接输出-1
+    else{//两个链表末端节点地址相同
+        for(--i,--j;i>=0&&j>=0&&list1[i]==list2[j];--i,--j);//不断向前遍历直到到达一个不同的结点地址
+        printf("%05d",list1[i+1]);//输出下一个相同结点的地址
+    }
+    return 0;
+}
+
+/*
+算法设计：
+还有一种方法是利用set的去重特性，将两个链表中所有节点都放入set中，比较两个链表结点总数和set中结点数量的多少，显然，如果两者相等，
+说明没有重复结点，输出-1；否则用两个链表结点总数减去set中结点数量得到的差（假设为k）即为相同结点的数量，任意一个链表中其从末尾向前
+的第k个结点即为相同结点的起始结点，输出该结点的地址即可。
+*/
+#include<bits/stdc++.h>
+using namespace std;
+char data[1000000];//结点地址有5位数字，故这个哈希表数组至少要开到10的6次方
+int Next[1000000];//结点地址有5位数字，故这个哈希表数组至少要开到10的6次方
+int main(){
+    int begin1,begin2,N;//链表1起始地址、链表2起始地址，给出的结点总数
+    vector<int> list1,list2;//存储2个链表所有结点地址的vector
+    unordered_set<int>s;//不需要对set中结点排序，可以用unordered_set
+    scanf("%d%d%d",&begin1,&begin2,&N);
+    while(N--){
+        int a;
+        scanf("%d",&a);
+        scanf(" %c %d",&data[a],&Next[a]);
+    }
+    while(begin1!=-1){
+        list1.push_back(begin1);
+        s.insert(begin1);
+        begin1=Next[begin1];
+    }
+    while(begin2!=-1){
+        list2.push_back(begin2);
+        s.insert(begin2);
+        begin2=Next[begin2];
+    }
+    int k=list1.size()+list2.size()-s.size();//相同结点的数量
+    if(k>0)//有相同结点
+        printf("%05d",list1[list1.size()-k]);//输出
+    else if(k==0)//没有相同结点
+        printf("-1");//输出-1
+    return 0;
+}
+
+
+/*
+算法设计：
+定义一个bool类型的辅助数组hashTable，数组下标表示地址，元素均初始化为false。首先遍历第一个链表的所有节点地址，将hashTable中对应地址
+下的元素置为true。遍历第二个链表节点地址，如果遇到对应的hashTable元素为true的即为第一个相同结点地址，直接输出即可；如果第二个链表所
+有节点均遍历完仍没有找到，输出-1。
+*/
+#include<bits/stdc++.h>
+using namespace std;
+char data[1000000];//结点地址有5位数字，故这个哈希表数组至少要开到10的6次方
+int Next[1000000];//结点地址有5位数字，故这个哈希表数组至少要开到10的6次方
+bool hashTable[1000000];//结点地址有5位数字，故这个哈希表数组至少要开到10的6次方
+int main(){
+    int begin1,begin2,N;//链表1起始地址、链表2起始地址，给出的结点总数
+    scanf("%d%d%d",&begin1,&begin2,&N);
+    while(N--){
+        int a;
+        scanf("%d",&a);
+        scanf(" %c %d",&data[a],&Next[a]);
+    }
+    while(begin1!=-1){
+        hashTable[begin1]=true;
+        begin1=Next[begin1];
+    }
+    while(begin2!=-1){
+        if(hashTable[begin2]){
+            printf("%05d",begin2);
+            return 0;
+        }
+        begin2=Next[begin2];
+    }
+    printf("-1");//输出-1
+    return 0;
+}
+
+
+
+
+
+
+
+
