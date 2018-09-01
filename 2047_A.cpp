@@ -59,6 +59,52 @@ KAT3
 LOR6
 ZOE1
 */
+//OK
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <string.h>
+using namespace std;
+
+char Name[40002][5];
+bool cmp(int a,int b)
+{
+    return strcmp(Name[a],Name[b]) < 0;
+}
+int main()
+{
+    int N,M;
+    cin>>N>>M;
+    vector<int>Course[M+1];
+    int i,j;
+    for(i=0 ; i<N ; i++)
+    {
+        scanf("%s",Name[i]);
+        int K,temp,j;
+        cin>>K;
+        for(j=0 ; j<K ; j++)
+        {
+            scanf("%d",&temp);
+            Course[temp].push_back(i);
+        }
+    }
+    for(i=1 ; i<=M ; i++)
+    {
+        int len = Course[i].size();
+        if(len == 0)
+            printf("%d %d\n",i,len);
+        else
+        {
+            sort(Course[i].begin(),Course[i].end(),cmp);
+            printf("%d %d\n",i,len);
+            for(j=0 ; j<len ; j++)
+                printf("%s\n",Name[Course[i][j]]);
+        }
+    }
+    return 0;
+}
+
+
 
 //依然超时
 #include <iostream>
@@ -194,7 +240,7 @@ int main()
 分析：建立int的二维数组，course[i][j] = k表示第i号课程上的人的一个列表，k是上这个课的学生的姓名所在的字符数组name[i][j]的i下标~~
 注意：strcmp返回的不一定是-1，0，1这几个数字，要返回bool变量还需要在后面添加strcmp是大于0还是小于0~~~
 */
-//哈哈哈，也运行超时了，真开心
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
