@@ -48,6 +48,127 @@ Sample Output 3
 000002 James 90
 000010 Amy 90
 */
+/*
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+#include <string.h>
+using namespace std;
+
+struct node
+{
+    char id[7];
+    char Name[9]; //这里必须大于8，否则会出现错误；原因是存在字符'\0'
+    int grade;
+};
+int flag = 0;
+bool cmp(struct node a,struct node b)
+{
+    if(flag == 1)
+    {
+        return strcmp(a.id,b.id)<0;
+    }
+    else if(flag == 2)
+    {
+        if(strcmp(a.Name,b.Name)!=0)
+        {
+            return strcmp(a.Name,b.Name)<0;
+        }
+        else
+        {
+            return strcmp(a.id,b.id)<0;
+        }
+    }
+    else if(flag == 3)
+    {
+        if(a.grade!=b.grade)
+            return a.grade < b.grade;
+        else
+            return strcmp(a.id,b.id)<0;
+    }
+}
+
+int main()
+{
+    int N,K;
+    cin>>N>>K;
+    flag = K;
+    vector<struct node>Student(N);
+    int i;
+    while(getchar()!='\n')
+        continue;
+    for(i=0 ; i<N ; i++)
+    {
+        scanf("%s %s %d",&Student[i].id,&Student[i].Name,&Student[i].grade);
+    }
+    sort(Student.begin(),Student.end(),cmp);
+    for(i=0 ; i<N ; i++)
+        printf("%s %s %d\n",Student[i].id,Student[i].Name,Student[i].grade);
+    return 0;
+}
+
+*/
+/*
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+#include <string.h>
+using namespace std;
+
+struct node
+{
+    int id;
+    char Name[9]; //这里必须大于8，否则会出现错误；原因是存在字符'\0'
+    int grade;
+};
+int flag = 0;
+bool cmp(struct node a,struct node b)
+{
+    if(flag == 1)
+    {
+        return a.id < b.id;
+    }
+    else if(flag == 2)
+    {
+        if(strcmp(a.Name,b.Name)!=0)
+        {
+            return strcmp(a.Name,b.Name)<0;
+        }
+        else
+        {
+            return a.id < b.id;
+        }
+    }
+    else if(flag == 3)
+    {
+        if(a.grade!=b.grade)
+            return a.grade < b.grade;
+        else
+            return a.id < b.id;
+    }
+}
+
+int main()
+{
+    int N,K;
+    cin>>N>>K;
+    flag = K;
+    vector<struct node>Student(N);
+    int i;
+    while(getchar()!='\n')
+        continue;
+    for(i=0 ; i<N ; i++)
+    {
+        scanf("%d %s %d",&Student[i].id,&Student[i].Name,&Student[i].grade);
+    }
+    sort(Student.begin(),Student.end(),cmp);
+    for(i=0 ; i<N ; i++)
+        printf("%06d %s %d\n",Student[i].id,Student[i].Name,Student[i].grade);
+    return 0;
+}
+*/
 //最后一个测试点超时了
 #include <iostream>
 #include <vector>
