@@ -100,3 +100,81 @@ int main() {
     }
     return 0;
 }
+
+
+//他山之玉
+#include <iostream>
+#include <deque>
+ 
+const int SIZE = 33;
+using namespace std;
+ 
+int pa[SIZE],ia[SIZE];
+ 
+struct Node{
+	Node(int a){
+		value = a;
+		left =NULL;
+		right = NULL;
+	}
+	int value;
+	Node *left;
+	Node *right;
+};
+ 
+Node * build_tree(int start1,int end1,int start2,int end2){
+//	Node * root=NULL;
+	if(start1 > end1 || start2 - end2 != start1-end1)
+	    return NULL;
+	else {
+	    int j=start2;
+    	while( ia[j] != pa[end1])
+	        j++;
+	    Node *pNode =  new Node(ia[j]);
+	    int newend1 = start1+j-1-start2;
+		pNode->left = build_tree(start1,newend1,start2,j-1);
+		pNode->right = build_tree(newend1+1,end1-1,j+1,end2);
+		return pNode;
+	}
+	    
+}
+ 
+deque <Node *>dq;
+ 
+void bfs(Node *pNode){
+	printf("%d",pNode->value);
+	if(pNode->left)
+	    dq.push_back(pNode->left);
+	if(pNode->right)
+	    dq.push_back(pNode->right);
+	while(!dq.empty()){
+		Node *p = dq.front();
+		printf(" %d",p->value);
+		if(p->left)
+		    dq.push_back(p->left);
+		if(p->right)
+		    dq.push_back(p->right);
+		dq.pop_front();
+	}
+	printf("\n");
+}
+ 
+int main()
+{
+	int N;
+//	freopen("test.txt","r",stdin);
+	scanf("%d",&N);
+	for(int i=0;i<N;i++)
+	    scanf("%d",&pa[i]);
+	for(int i=0;i<N;i++)
+	    scanf("%d",&ia[i]);
+    if(N==1){
+    	printf("%d\n",ia[0]);
+    	return 0;
+	}
+	Node *root = NULL;
+	root = build_tree(0,N-1,0,N-1);
+	bfs(root);
+//	fclose(stdin);
+	return 0;
+}
