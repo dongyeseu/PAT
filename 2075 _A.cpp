@@ -52,6 +52,113 @@ Sample Output:
 2 00001 42 18 18 4 2
 5 00004 40 15 0 25 -
 */
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+struct node
+{
+    int id;
+    vector<bool>Submision;
+    vector<int>Grade;
+    int total_grade = 0;
+    int rk = 1;
+    int num = 0;
+    bool flag = false;
+};
+
+bool cmp(struct node a,struct node b)
+{
+    if(a.total_grade != b.total_grade)
+        return a.total_grade > b.total_grade;
+    else if(a.num != b.num)
+        return a.num > b.num;
+    else
+        return a.id < b.id;
+}
+
+int main()
+{
+    int N,M,K;
+    cin>>N>>M>>K;
+    vector<int>Perfect(M+1);
+    int i;
+    for(i=1 ; i<=M ; i++)
+        scanf("%d",&Perfect[i]);
+    vector<struct node>Student(N);
+    for(i=0 ; i<N ; i++)
+    {
+        Student[i].Submision.resize(M+1,false);
+        Student[i].Grade.resize(M+1,0);
+    }
+    int tempid,tempnum,tempgrade;
+    map<int,int>ID;
+    int t = 0;
+    for(i=0 ; i<K ; i++)
+    {
+        scanf("%d %d %d",&tempid,&tempnum,&tempgrade);
+        if(ID.count(tempid) == 0)
+        {
+            Student[t].id = tempid;
+            ID[tempid] = t++;
+        }
+        int k = ID[tempid];
+        Student[k].Submision[tempnum] = true;
+        if(tempgrade >= 0)
+            Student[k].flag = true;
+        if(tempgrade > Student[k].Grade[tempnum])
+        {
+            Student[k].Grade[tempnum] = tempgrade;
+            if(tempgrade == Perfect[tempnum])
+                Student[k].num++;
+        }
+    }
+    for(i=0 ; i<N ; i++)
+    {
+        for(t=1 ; t<=M ; t++)
+        {
+            if(Student[i].Submision[t])
+            {
+                Student[i].total_grade += Student[i].Grade[t];
+            }
+        }
+    }
+    sort(Student.begin(),Student.end(),cmp);
+    for(i=0 ; i<N ; i++)
+    {
+        if(Student[i].flag)
+        {
+            if(i==0)
+            {
+                Student[i].rk = 1;
+            }
+            else
+            {
+                if(Student[i].total_grade == Student[i-1].total_grade)
+                    Student[i].rk = Student[i-1].rk;
+                else
+                    Student[i].rk = i+1;
+            }
+            printf("%d %05d %d",Student[i].rk,Student[i].id,Student[i].total_grade);
+            for(t=1 ; t<=M ; t++)
+            {
+                if(Student[i].Submision[t])
+                {
+                    printf(" %d",Student[i].Grade[t]);
+                }
+                else
+                {
+                    printf(" -");
+                }
+            }
+            printf("\n");
+        }
+    }
+    return 0;
+}
 
 
 //最后一个测试点答案错误
