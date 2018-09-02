@@ -51,6 +51,93 @@ Cindy 76 76000
 Case #4:
 None
 */
+//全部通过
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+#include <string.h>
+using namespace std;
+
+struct node
+{
+    char Name[10];
+    int age;
+    int wealth;
+};
+
+bool cmp(struct node a,struct node b)
+{
+    if(a.wealth != b.wealth)
+    {
+        return a.wealth > b.wealth;
+    }
+    else if( a.age != b.age)
+    {
+        return a.age < b.age;
+    }
+    else
+    {
+        return strcmp(a.Name,b.Name)<0;
+    }
+}
+
+int main()
+{
+    int N,M;
+    scanf("%d %d",&N,&M);
+    int i;
+    vector<struct node>People;
+    vector<struct node>PNew;
+    vector<int>Age(201,0);
+    for(i=0 ; i<N ; i++)
+    {
+        struct node temp;
+        scanf("%s %d %d",temp.Name,&temp.age,&temp.wealth);
+        People.push_back(temp);
+    }
+    sort(People.begin(),People.end(),cmp);
+    for(i=0 ; i<N ; i++)
+    {
+        int a = People[i].age;
+        if(Age[a] < 100)
+        {
+            Age[a]++;
+            PNew.push_back(People[i]);
+        }
+    }
+    for(i=1 ; i<=M ; i++)
+    {
+        int kmax,Amax,Amin;
+        scanf("%d %d %d",&kmax,&Amin,&Amax);
+        int sum = 0 , j;
+        for(j=Amin ; j<=Amax ; j++)
+        {
+            sum += Age[j];
+        }
+        printf("Case #%d:\n",i);
+        if(sum == 0)
+        {
+            printf("None\n");
+            continue;
+        }
+        int cnt = 0;
+        for(j=0 ; j<N ; j++)
+        {
+            if(PNew[j].age >= Amin && PNew[j].age<=Amax)
+            {
+                cnt++;
+                printf("%s %d %d\n",PNew[j].Name,PNew[j].age,PNew[j].wealth);
+                if(cnt==kmax || cnt==sum)
+                    break;
+            }
+        }
+    }
+    return 0;
+}
+
+
+
 //2，3测试点超时
 #include <iostream>
 #include <vector>
