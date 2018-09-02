@@ -25,6 +25,45 @@ Sample Output:
 
 6 3 8 1 5 7 9 0 2 4
 */
+//复习时写的
+#include <iostream>
+#include <vector>
+#include <cstdio>
+#include <algorithm>
+using namespace std;
+
+vector<int>Tree;
+int N;
+int i = 0;
+void gettree(int index,vector<int>Origin)
+{
+    if(index > N || i>=N)
+        return;
+    gettree(index*2,Origin);
+    Tree[index] = Origin[i];
+    i++;
+    gettree(index*2+1,Origin);
+
+}
+
+int main()
+{
+
+    cin>>N;
+    Tree.resize(N+1,0);
+    vector<int>Origin(N);
+    int i;
+    for(i=0 ; i<N ; i++)
+        cin>>Origin[i];
+    sort(Origin.begin(),Origin.end());
+    gettree(1,Origin);
+    for(i=1 ; i<=N ; i++)
+    {
+        printf("%d%c",Tree[i],i==N?'\n':' ');
+    }
+    return 0;
+}
+
 
 #include <iostream>
 #include <vector>
