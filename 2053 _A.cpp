@@ -20,6 +20,125 @@ Sample Output:
 10 3 3 6 2
 */
 
+//复习时新思路
+//回溯法
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cstdio>
+using namespace std;
+
+struct node
+{
+    int weight;
+    vector<int>child;
+};
+
+vector<struct node>Tree;
+bool cmp(int a,int b)
+{
+    return Tree[a].weight > Tree[b].weight;
+}
+int N,M,K;
+int tempsum = 0;
+vector<int>path,temppath;
+
+/*  这一步是OK的*/
+void DFS(int root)
+{
+    if(tempsum > K)
+        return;
+    else if(tempsum == K)
+    {
+        if(Tree[root].child.size()!=0)
+            return;
+        else
+        {
+            int i,len = path.size();
+            for(i=0 ; i<len ; i++)
+                printf("%d%c",path[i],i==len-1?'\n':' ');
+            return;
+        }
+    }
+    else
+    {
+        int i,len = Tree[root].child.size();
+        for(i=0 ; i<len ; i++) //添加 ——> DFS —— > 删除
+        {
+            int j = Tree[root].child[i];
+            tempsum += Tree[j].weight;
+            path.push_back(Tree[j].weight);
+            DFS(j);
+            tempsum -= Tree[j].weight;
+            path.pop_back();
+
+        }
+    }
+
+}
+
+
+/*  Ok ,另一种回溯法思路
+void DFS(int root,int nodenum,int sum)
+{
+    if(sum > K)
+        return;
+    else if(sum == K)
+    {
+        if(Tree[root].child.size()!=0)
+            return;
+        else
+        {
+            int i;
+            for(i=0 ; i<nodenum ; i++)
+                printf("%d%c",path[i],i==nodenum-1?'\n':' ');
+            return;
+        }
+    }
+    else
+    {
+        int i,j,len = Tree[root].child.size();
+        for(i=0 ; i<len ; i++)
+        {
+            j = Tree[root].child[i];
+            path[nodenum] = Tree[j].weight;
+            DFS(j,nodenum+1,sum+Tree[j].weight);
+        }
+    }
+}
+*/
+
+int main()
+{
+
+    cin>>N>>M>>K;
+    Tree.resize(N);
+    path.resize(N);
+    int i,j;
+    for(i=0 ; i<N ; i++)
+        scanf("%d",&Tree[i].weight);
+    for(i=0 ; i<M ; i++)
+    {
+        int id,num,temp;
+        cin>>id>>num;
+        for(j=0 ; j<num ; j++)
+        {
+            scanf("%d",&temp);
+            Tree[id].child.push_back(temp);
+        }
+        sort(Tree[id].child.begin(),Tree[id].child.end(),cmp); //这一步很关键
+    }
+    tempsum = Tree[0].weight;
+    path.push_back(Tree[0].weight);
+    DFS(0);
+//    path[0] = Tree[0].weight;
+//    DFS(0,1,Tree[0].weight);
+    return 0;
+}
+
+
+
 //完全通过
 #include <iostream>
 #include <vector>
@@ -289,5 +408,78 @@ int main() {
         sort(v[node].child.begin(), v[node].child.end(), cmp1);
     }
     dfs(0, 1, v[0].w);
+    return 0;
+}
+
+
+
+//他山之玉
+#include <cstdio>
+using namespace std;
+#include <vector>
+#include <algorithm>
+
+int N,M,S;
+vector<int> W; //weight of nodes
+vector<vector<int> > G; //邻接表 
+int vis[110];
+vector<int> path;
+vector<vector<int> > ans;
+int currentSum=0;
+
+bool compare(vector<int> &a,vector<int> &b){
+    for(int i=0;i<a.size()&&i<b.size();i++){
+        if(a[i]!=b[i]) return a[i]>b[i];
+    }
+    return a.size()>b.size();
+}
+
+void DFS(int s){
+    vis[s]=1;
+    if(G[s].size()==0&&currentSum==S){
+        ans.push_back(path);
+        return;
+    }
+    if(G[s].size()>0&&currentSum>S) return;
+    for(int i=0;i<G[s].size();i++){
+        currentSum+=W[G[s][i]];
+        path.push_back(W[G[s][i]]);
+
+        DFS(G[s][i]);
+
+        currentSum-=W[G[s][i]];
+        path.pop_back();
+
+    }
+}
+
+int main(){
+    scanf("%d %d %d",&N,&M,&S);
+
+    W.resize(N);
+    for(int i=0;i<N;i++) scanf("%d",&W[i]);
+
+    G.resize(N);
+    int ID,K,child;
+    for(int i=0;i<M;i++){
+        scanf("%d %d",&ID,&K);
+        for(int j=0;j<K;j++) {
+            scanf("%d",&child);
+            G[ID].push_back(child);
+        }
+    }
+
+    path.push_back(W[0]);
+    currentSum=W[0];
+    DFS(0);
+
+    sort(ans.begin(),ans.end(),compare);
+    for(int i=0;i<ans.size();i++){
+        for(int j=0;j<ans[i].size();j++){
+            if(j<ans[i].size()-1) printf("%d ",ans[i][j]);
+            else printf("%d\n",ans[i][j]);
+        }
+    }
+
     return 0;
 }
