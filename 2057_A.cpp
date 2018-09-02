@@ -50,6 +50,94 @@ Invalid
 3
 Invalid
 */
+//树状数组解法
+#include <iostream>
+#include <stack>
+#define MAXN 100010
+using namespace std;
+
+int Tree[MAXN];
+
+int lowbit(int x)
+{
+    return x&(-x);
+}
+
+void update(int x,int v)
+{
+    int i;
+    for(i=x ; i<MAXN ; i+=lowbit(i))
+        Tree[i] += v;
+}
+
+int getsum(int x)
+{
+    int i,res = 0;
+    for(i=x ; i>0 ; i-=lowbit(i))
+        res += Tree[i];
+    return res;
+}
+
+int Find(int k)
+{
+    int left = 1,right = MAXN;
+    int mid;
+    while(left < right)
+    {
+        mid = left + (right - left)/2;
+        int res = getsum(mid);
+        if(res >= k)
+            right = mid;
+        else
+            left =mid+1;
+    }
+    return left;
+}
+
+int main()
+{
+    int N,temp;
+    string condition;
+    cin>>N;
+    int i;
+    stack<int>S;
+    for(i=0 ; i<N ; i++)
+    {
+        cin>>condition;
+        if(condition == "Pop")
+        {
+            if(S.empty())
+                cout<<"Invalid\n";
+            else
+            {
+                int t = S.top();
+                cout<<t<<"\n";
+                update(t,-1);
+                S.pop();
+            }
+        }
+        else if(condition == "Push")
+        {
+            cin>>temp;
+            S.push(temp);
+            update(temp,1);
+        }
+        else if(condition == "PeekMedian")
+        {
+            if(S.empty())
+                cout<<"Invalid\n";
+            else
+            {
+                int t = (S.size() + 1)/2;
+                temp = Find(t);
+                cout<<temp<<"\n";
+            }
+        }
+    }
+    return 0;
+}
+
+
 
 //运行超时
 #include <iostream>
