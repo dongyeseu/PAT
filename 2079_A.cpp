@@ -35,7 +35,72 @@ Sample Output:
 
 42.4
 */
+//深度优先搜索
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <map>
+#include <cmath>
+using namespace std;
 
+vector<vector<int>>Graph;
+
+map<int,int>Depth;
+vector<int>Book;
+
+void DFS(int root,int depth)
+{
+    Depth[root] = depth;
+    Book[root] = 1;
+    int len = Graph[root].size() , i;
+    for(i=0 ; i<len ; i++)
+    {
+        DFS(Graph[root][i],depth+1);
+    }
+}
+
+int main()
+{
+    int N;
+    double P,r;
+    cin>>N>>P>>r;
+    r = r/100;
+    Graph.resize(N);
+    Book.resize(N,0);
+    int i,j,K,temp;
+    map<int,int>Retailers;
+    for(i=0 ; i<N ; i++)
+    {
+        cin>>K;
+        if(K == 0)
+        {
+            cin>>temp;
+            Retailers[i] = temp;
+        }
+        else
+        {
+            for(j=0 ; j<K ; j++)
+            {
+                cin>>temp;
+                Graph[i].push_back(temp);
+            }
+        }
+    }
+    DFS(0,0);
+    double total_sales = 0.0;
+    for(auto z = Retailers.begin() ; z!=Retailers.end() ; z++)
+    {
+        int t = z->first , m = z->second;
+        int d = Depth[t];
+        total_sales += (m * P ) * pow(1+r,d);
+    }
+    printf("%.1f",total_sales);
+    return 0;
+}
+
+
+
+//广度优先搜索
 #include <iostream>
 #include <cstdio>
 #include <map>
