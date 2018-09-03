@@ -37,6 +37,91 @@ Sample Output:
 
 58 25 82 11 38 67 45 73 42
 */
+//复习时更简洁的写法
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <vector>
+#include <queue>
+#include <algorithm>
+using namespace std;
+struct node
+{
+    int left;
+    int right;
+};
+vector<struct node>Node;
+vector<int>Value;
+struct TreeNode
+{
+    int value = 0;
+    struct TreeNode * Left;
+    struct TreeNode * Right;
+};
+
+typedef struct TreeNode * SearchTree;
+
+SearchTree CreateSearchTree(SearchTree T)
+{
+    return NULL;
+}
+int z = 0;
+SearchTree Insert(SearchTree T,int root)
+{
+    if(T == NULL)
+    {
+        T = (struct TreeNode *)malloc(sizeof(struct TreeNode));
+        T->Left = NULL;
+        T->Right = NULL;
+    }
+    if(Node[root].left != -1)
+        T->Left = Insert(T->Left,Node[root].left);
+    T->value = Value[z++];
+    if(Node[root].right != -1)
+        T->Right = Insert(T->Right,Node[root].right);
+    return T;
+}
+void LevelTraversel(SearchTree T)
+{
+    queue<SearchTree>Tree;
+    Tree.push(T);
+    int cnt = 0;
+    while(!Tree.empty())
+    {
+        SearchTree Node = Tree.front();
+        Tree.pop();
+        if(Node->Left != NULL)
+            Tree.push(Node->Left);
+        if(Node->Right != NULL)
+            Tree.push(Node->Right);
+        if(cnt!=0)
+            cout<<" ";
+        cout<<Node->value;
+        cnt++;
+    }
+    return ;
+}
+int main()
+{
+    int N,i;
+    cin>>N;
+    Value.resize(N);
+    Node.resize(N);
+    for(i=0 ; i<N ; i++)
+    {
+        cin>>Node[i].left>>Node[i].right;
+    }
+    for(i=0 ; i<N ; i++)
+        cin>>Value[i];
+    sort(Value.begin(),Value.end());
+    SearchTree T;
+    T = CreateSearchTree(T);
+    T = Insert(T,0);
+    LevelTraversel(T);
+    return 0;
+}
+
+
 #include <iostream>
 #include <vector>
 #include <cstdlib>
