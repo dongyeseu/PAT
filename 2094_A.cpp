@@ -111,6 +111,49 @@ int main()
 
 }
 
+//DFS
+//注：用图的方式来记录家族成员之间的关系更加巧妙，可以很好的取代结构体数组
+
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <map>
+using namespace std;
+vector<vector<int>>Graph;
+map<int,int>Depth;
+int maxdepth,maxpopulation = 0;
+void DFS(int root,int depth)
+{
+    Depth[depth]++;
+    if(Depth[depth] > maxpopulation)
+    {
+        maxpopulation = Depth[depth];
+        maxdepth = depth;
+    }
+    int i,len = Graph[root].size();
+    for(i=0 ; i<len ; i++)
+        DFS(Graph[root][i],depth+1);
+}
+int main()
+{
+    int N,M,K,i,j,temp,father;
+    cin>>N>>M;
+    Graph.resize(N+1);
+    for(i=0 ; i<M ; i++)
+    {
+        cin>>father>>K;
+        for(j=0 ; j<K ; j++)
+        {
+            cin>>temp;
+            Graph[father].push_back(temp);
+        }
+    }
+    DFS(1,1);
+    cout<<maxpopulation<<" "<<maxdepth<<"\n";
+    return 0;
+}
+
+
 //他山之玉
 //柳婼
 /*
