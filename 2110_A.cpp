@@ -34,6 +34,74 @@ Sample Input 2:
 Sample Output 2:
 NO 1
 */
+//复习时所作，全部正确
+#include <iostream>
+#include <vector>
+#include <cstdio>
+#include <string>
+using namespace std;
+struct node
+{
+    int value;
+    int left=-1;
+    int right=-1;
+};
+int N;
+vector<struct node>Tree;
+vector<int>CompleteTree;
+void PreorderTravesel(int root,int index)
+{
+    if(root == -1 || index >=N)
+        return;
+    CompleteTree[index] = Tree[root].value;
+    PreorderTravesel(Tree[root].left,2*index+1);
+    PreorderTravesel(Tree[root].right,2*index+2);
+}
+int main()
+{
+    int i,root;
+    string l,r;
+    cin>>N;
+    Tree.resize(N);
+    CompleteTree.resize(N,-1);
+    vector<int>Book(N,0);
+    for(i=0 ; i<N ; i++)
+    {
+        cin>>l>>r;
+        if(l!="-")
+        {
+            Tree[i].left = stoi(l);
+            Book[Tree[i].left] = 1;
+        }
+
+        if(r != "-")
+        {
+            Tree[i].right = stoi(r);
+            Book[Tree[i].right] = 1;
+        }
+        Tree[i].value = i;
+    }
+    for(i=0 ; i<N ; i++)
+    {
+        if(Book[i] == 0)
+        {
+            root = i;
+            break;
+        }
+    }
+    PreorderTravesel(root,0);
+    for(i=0 ; i<N ; i++)
+    {
+        if(CompleteTree[i] == -1)
+        {
+            cout<<"NO "<<Tree[root].value<<"\n";
+            return 0;
+        }
+    }
+    cout<<"YES "<<CompleteTree[N-1]<<"\n";
+    return 0;
+}
+
 
 #include <iostream>
 #include <queue>
