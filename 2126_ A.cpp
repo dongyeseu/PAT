@@ -55,31 +55,68 @@ Sample Output 3:
 3 3 4 3 3
 Non-Eulerian
 */
-
+//根据条件： 一：必须是连通图 二：考虑每个结点的degree
 
 
 #include <iostream>
 #include <vector>
-#include <cstdio>
-#define MAXN 510
 using namespace std;
 
-int Graph[MAXN][MAXN] = {0};
-int Degree[MAXN] = {0};
-int Book[MAXN] = {0};
-
-int DFS(int root,int N)
+vector<vector<int>>Graph;
+vector<int>Book;
+void DFS(int root)
 {
     Book[root] = 1;
-    int i;
-    for(i=1 ; i<=N ; i++)
+    int i,len = Graph[root].size();
+    for(i=0 ; i<len ; i++)
     {
-        if(!Book[i] && Graph[root][i])
-        {
-            DFS(i,N);
-        }
+        if(!Book[Graph[root][i]])
+            DFS(Graph[root][i]);
     }
 }
+int main()
+{
+    int N,M;
+    cin>>N>>M;
+    Graph.resize(N+1);
+    Book.resize(N+1,0);
+    vector<int>Degree(N+1,0);
+    int i,j,k;
+    for(i=0 ; i<M ; i++)
+    {
+        cin>>j>>k;
+        Graph[j].push_back(k);
+        Graph[k].push_back(j);
+        Degree[j]++;
+        Degree[k]++;
+    }
+    int cnt = 0;
+    for(i=1 ; i<=N ; i++)
+    {
+        if(!Book[i])
+        {
+            DFS(i);
+            cnt++;
+        }
+    }
+    int odd = 0;
+    for(i=1 ; i<=N ; i++)
+    {
+        if(i!=1)
+            cout<<" ";
+        cout<<Degree[i];
+        if(Degree[i]%2!=0)
+            odd++;
+    }
+    if(cnt==1 && odd==0)
+        cout<<"\nEulerian\n";
+    else if(cnt==1 && odd==2)
+        cout<<"\nSemi-Eulerian\n";
+    else
+        cout<<"\nNon-Eulerian\n";
+    return 0;
+}
+
 
 //他山之玉
 //柳婼
