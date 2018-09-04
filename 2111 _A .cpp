@@ -74,16 +74,16 @@ Distance = 3; Time = 4: 3 -> 2 -> 5
 #define INF 999999999
 using namespace std;
 
-int Graph[MAXN][MAXN] = {0};
-int Graph_1[MAXN][MAXN] = {0};
+int Graph[MAXN][MAXN] = {0}; //权值路程
+int Graph_1[MAXN][MAXN] = {0};  //权值时间
 
 int main()
 {
-    int N,M;
+    int N,M; //城市，边
     cin>>N>>M;
     int v1,v2,one_way,length,time;
     int i,j;
-    for(i=0 ; i<M ; i++)
+    for(i=0 ; i<M ; i++) //建图
     {
         cin>>v1>>v2>>one_way>>length>>time;
         Graph[v1][v2] = length;
@@ -94,17 +94,17 @@ int main()
             Graph_1[v2][v1] = time;
         }
     }
-    int Book[N] = {0};
-    int Parent[N];
+    int Book[N] = {0}; //用于判断结点是否已经访问过，防止出现重复访问
+    int Parent[N]; //记录每个结点的上个结点位置，用于回溯路径
     int st,ed;
     cin>>st>>ed;
-    int Dist[N];
-    int Tist[N];
-    fill(Dist,Dist+N,INF);
-    fill(Parent,Parent+N,-1);
-    fill(Tist,Tist+N,INF);
-    Dist[st] = 0;
-    Tist[st] = 0;
+    int Dist[N]; //记录从起点开始到该位置的最短路径
+    int Tist[N]; //记录从起点开始到该位置的时间，当路程相同时，取最短时间
+    fill(Dist,Dist+N,INF);  //初始化
+    fill(Parent,Parent+N,-1);//初始化
+    fill(Tist,Tist+N,INF);//初始化
+    Dist[st] = 0;//初始化
+    Tist[st] = 0;//初始化
     for(i=0 ; i<N ; i++)
     {
         if(Graph[st][i])
@@ -114,7 +114,7 @@ int main()
             Parent[i] = st;
         }
     }
-    for(i=1 ; i<N ; i++)
+    for(i=1 ; i<N ; i++) //迪杰斯特拉算法
     {
         int minindex = -1,minweight = INF;
         for(j=0 ; j<N ; j++)
@@ -154,7 +154,7 @@ int main()
         z = Parent[z];
     }
     reverse(Res.begin(),Res.end());
-    int view[N];
+    int view[N]; //记录当该位置时经过的结点数
     fill(view,view+N,1);
     fill(Parent,Parent+N,-1);
     fill(Tist,Tist+N,INF);
