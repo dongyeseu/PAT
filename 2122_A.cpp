@@ -41,6 +41,58 @@ NO
 YES
 NO
 */
+//复习时所作
+#include <iostream>
+#include <vector>
+#define MAXN 210
+using namespace std;
+
+int Graph[MAXN][MAXN] = {0};
+bool Hamiltonian(vector<int>Cycle,int N)
+{
+    int Size = Cycle.size();
+    if(Size<=N)
+        return false;
+    if(Cycle[0] != Cycle[Size-1])
+        return false;
+    vector<int>Visited(N+1,0);
+    int i;
+    for(i=0 ; i<Size-1 ; i++)
+    {
+        if(!Visited[Cycle[i]] && Graph[Cycle[i]][Cycle[i+1]])
+            Visited[Cycle[i]] = 1;
+        else
+            return false;
+    }
+    return true;
+}
+int main()
+{
+    int N,M,K,i,j,k;
+    cin>>N>>M;
+    for(i=0 ; i<M ; i++)
+    {
+        cin>>j>>k;
+        Graph[j][k] = Graph[k][j] = 1;
+    }
+    cin>>K;
+    for(i=0 ; i<K; i++)
+    {
+        vector<int>Cycle;
+        int T;
+        cin>>T;
+        for(j=0 ; j<T ; j++)
+        {
+            cin>>k;
+            Cycle.push_back(k);
+        }
+        if(Hamiltonian(Cycle,N))
+            cout<<"YES\n";
+        else
+            cout<<"NO\n";
+    }
+    return 0;
+}
 
 
 #include <iostream>
